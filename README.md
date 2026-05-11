@@ -1,5 +1,6 @@
 # 🎭 GAN from Scratch — A Deep Convolutional GAN for Image Generation in PyTorch
 ### FashionMNIST 28×28 이미지를 적대적 학습(Generator vs Discriminator)으로 생성하는, PyTorch로 직접 구현한 DCGAN.
+
 ![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C?logo=pytorch&logoColor=white)
 ![CUDA](https://img.shields.io/badge/CUDA-Enabled-76B900?logo=nvidia&logoColor=white)
