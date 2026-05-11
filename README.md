@@ -13,21 +13,21 @@
 
 GAN(Generative Adversarial Network)의 가장 대표적 변형인 **DCGAN(Deep Convolutional GAN)** 을 PyTorch로 구현해본 프로젝트입니다. VAE처럼 손실 함수 한 줄(ELBO)로 깔끔하게 떨어지는 모델과 달리, GAN은 **Generator와 Discriminator가 서로 속고 속이는 적대적 학습**을 통해 이미지를 만들어 갑니다. 이번 프로젝트의 핵심은 그 minimax 학습 구조를 코드로 직접 짜보면서 "왜 G와 D를 따로 학습해야 하는가", "왜 GAN의 학습은 본질적으로 불안정한가" 같은 질문들을 코드 레벨에서 익히는 것이 1차 목표였습니다.
 
-데이터셋은 **FashionMNIST**(28×28 grayscale, 60k)이며, **[vae-from-scratch](https://github.com/AD-Styles/vae-from-scratch)와 동일한 데이터셋을 의도적으로 재사용**해서 두 모델을 직접 비교할 수 있게 했습니다. 학습 후에는 G/D 손실 곡선, D Accuracy의 균형 변화, 학습 진행에 따른 생성 결과 변화, 64개 샘플 다양성(Mode Collapse 체크), D Score 분포 분석, latent 공간 보간, 그리고 **VAE vs GAN 동일 조건 비교**까지 6개의 시각화로 정리했습니다.
+데이터셋은 **FashionMNIST**(28×28 grayscale, 60k)이며, **이전 프로젝트인 [vae-from-scratch](https://github.com/AD-Styles/vae-from-scratch)와 동일한 데이터셋을 의도적으로 재사용**해서 두 모델을 직접 비교할 수 있게 했습니다. 학습 후에는 G/D 손실 곡선, D Accuracy의 균형 변화, 학습 진행에 따른 생성 결과 변화, 64개 샘플 다양성(Mode Collapse 체크), D Score 분포 분석, latent 공간 보간, 그리고 **VAE vs GAN 동일 조건 비교**까지 6개의 시각화로 정리했습니다.
 
 ---
 
 ## 📂 프로젝트 구조 (Project Structure)
 
 ```
-30. gan-from-scratch/
+gan-from-scratch/
 ├── results/
 │   ├── 01_dataset_overview.png            # FashionMNIST 10개 클래스 + 분포 + 통계
 │   ├── 02_training_curve.png              # G/D Loss + D Accuracy (Equilibrium 0.5 비교)
 │   ├── 03_training_progression.png        # 같은 z, 다른 epoch — 학습 진행 추적
 │   ├── 04_diversity_and_d_score.png       # 64개 샘플 다양성 + D Score 분포 (real vs fake)
 │   ├── 05_latent_walk.png                 # z-space 보간 5쌍 (manifold 부드러움)
-│   └── 06_vae_vs_gan_comparison.png       # vae-from-scratch와 동일 조건 직접 비교 (blurry vs sharp)
+│   └── 06_vae_vs_gan_comparison.png       # 이전 프로젝트 vae-from-scratch와 동일 조건 직접 비교 (blurry vs sharp)
 ├── src/
 │   └── main.py                            # DCGAN 모델 + 학습 루프 + 시각화 통합 스크립트
 ├── .gitignore
@@ -130,7 +130,7 @@ GAN(Generative Adversarial Network)의 가장 대표적 변형인 **DCGAN(Deep C
 
 FashionMNIST는 10개 의류 클래스 × 6,000장씩으로 균등하게 구성된 60,000장 학습셋입니다. **GAN에서는 데이터를 [-1, 1] 범위로 정규화하는 것이 중요**한데, 이는 Generator의 마지막 Tanh activation의 출력 범위와 맞추기 위함입니다 (VAE는 Sigmoid라 [0, 1] 그대로 사용).
 
-[vae-from-scratch](https://github.com/AD-Styles/vae-from-scratch)와 정확히 같은 데이터셋을 의도적으로 재사용했습니다. 이렇게 하면 **모델 자체의 차이(VAE vs GAN)만이 결과 차이를 만드는 유일한 변수**가 되어, 시각화 06번에서 두 모델을 공정하게 비교할 수 있습니다.
+이전 프로젝트인 [vae-from-scratch](https://github.com/AD-Styles/vae-from-scratch)와 정확히 같은 데이터셋을 의도적으로 재사용했습니다. 이렇게 하면 **모델 자체의 차이(VAE vs GAN)만이 결과 차이를 만드는 유일한 변수**가 되어, 시각화 06번에서 두 모델을 공정하게 비교할 수 있습니다.
 
 <br>
 
@@ -199,7 +199,7 @@ GAN의 가장 흥미로운 부분이자 가장 어려운 부분이 한눈에 보
 
 ![VAE vs GAN Comparison](results/06_vae_vs_gan_comparison.png)
 
-**이번 포트폴리오의 가장 강력한 차별 포인트**입니다. **같은 FashionMNIST 데이터셋**으로 학습한 [vae-from-scratch](https://github.com/AD-Styles/vae-from-scratch)의 VAE와 이 프로젝트의 GAN을, 각자의 prior `N(0, I)`에서 독립적으로 8개씩 샘플링해 한 그림에서 직접 비교했습니다 (같은 z를 공유하는 게 아니라, 두 모델 각각의 분포에서 자유롭게 샘플링한 결과).
+**이번 포트폴리오의 가장 강력한 차별 포인트**입니다. **같은 FashionMNIST 데이터셋**으로 학습한 이전 프로젝트 [vae-from-scratch](https://github.com/AD-Styles/vae-from-scratch)의 VAE와 이 프로젝트의 GAN을, 각자의 prior `N(0, I)`에서 독립적으로 8개씩 샘플링해 한 그림에서 직접 비교했습니다 (같은 z를 공유하는 게 아니라, 두 모델 각각의 분포에서 자유롭게 샘플링한 결과).
 
 - **(위) VAE (blurry)** — 형태(silhouette)는 보존되지만 픽셀 디테일이 평균화되어 흐릿함. BCE 손실이 모든 비슷한 이미지의 픽셀 평균을 향해 수렴하는 본질적 결과 (PDF p.21)
 - **(아래) GAN (sharp)** — 부츠의 굽 라인, 가방의 모서리, 바지의 봉제선 같은 high-frequency 디테일이 명확하게 살아남음. Discriminator가 픽셀 단위 디테일까지 평가하기 때문에 G가 어쩔 수 없이 sharp한 결과를 생성
@@ -212,7 +212,7 @@ GAN의 가장 흥미로운 부분이자 가장 어려운 부분이 한눈에 보
 
 ## 💡 회고록 (Retrospective)
 
-vae-from-scratch를 마치고 GAN으로 넘어오면서 가장 먼저 느낀 건 손실 함수의 구조 자체가 완전히 다르다는 점이었습니다. VAE는 ELBO라는 단일 손실을 단조감소시키면 끝이었는데, GAN은 G와 D를 따로 학습시켜야 했고, 두 모델이 동시에 좋아지는 게 아니라 한쪽이 좋아지면 다른 쪽이 잠시 나빠지는 줄다리기였습니다. 처음엔 `loss.backward()` 한 번이면 끝나던 게 두 번으로 늘고, optimizer도 두 개, `detach()` 같은 잔기술도 필요해져서 코드 자체의 복잡도가 한 단계 올라간 느낌이었습니다.
+직전 프로젝트인 vae-from-scratch를 마치고 GAN으로 넘어오면서 가장 먼저 느낀 건 손실 함수의 구조 자체가 완전히 다르다는 점이었습니다. VAE는 ELBO라는 단일 손실을 단조감소시키면 끝이었는데, GAN은 G와 D를 따로 학습시켜야 했고, 두 모델이 동시에 좋아지는 게 아니라 한쪽이 좋아지면 다른 쪽이 잠시 나빠지는 줄다리기였습니다. 처음엔 `loss.backward()` 한 번이면 끝나던 게 두 번으로 늘고, optimizer도 두 개, `detach()` 같은 잔기술도 필요해져서 코드 자체의 복잡도가 한 단계 올라간 느낌이었습니다.
 
 가장 헷갈렸던 게 G를 학습할 때 D를 통과시키는 부분이었습니다. D를 학습할 땐 `fake_imgs.detach()`로 gradient를 끊어야 D만 업데이트되는데, 그다음에 G를 학습할 땐 `detach` 없이 D를 통과시켜서 D의 gradient를 거꾸로 G까지 흘려보내야 합니다. D는 학습하지 않으면서 D의 gradient를 G까지 통과시키는 게 직관적으로 잘 안 잡혀서 한참 헤맸습니다. 결국 코드로 짜고 한 epoch 돌려보면서 "아 G optimizer가 G 파라미터만 들고 있어서 D는 어차피 안 바뀌는구나"가 잡혔습니다.
 
@@ -224,7 +224,7 @@ Mode collapse는 GAN의 대표적 실패 모드라 처음부터 걱정했었습�
 
 03번 시각화에서 같은 z에서 epoch별로 생성 결과가 어떻게 변하는지 보는 게 흥미로웠습니다. epoch 1에서는 거의 노이즈인데 epoch 10에서 이미 신발이나 셔츠 같은 카테고리가 결정됩니다. epoch 25, 50로 가면 디테일이 살아날 뿐 카테고리는 거의 안 바뀝니다. **"각 z가 어떤 카테고리로 갈지가 학습 초기에 결정되고 나머지는 디테일 향상"** 이라는 패턴이 보인 게 신기했습니다. VAE에서는 KL 항이 z를 정규분포에 묶어둬서 이런 식의 "z당 카테고리 매핑" 자체가 약했는데, GAN은 그런 제약이 없어서 z가 특정 카테고리를 강하게 capture하는 것 같습니다.
 
-이번에 가장 만족스러운 결과는 06번 VAE vs GAN 비교였습니다. vae-from-scratch와 똑같은 데이터셋을 의도적으로 재사용한 게 이걸 위해서였는데, 한 그림에서 두 모델의 본질적 차이가 그대로 드러났습니다. VAE는 흐릿하고 평균화된 형태인 반면 GAN은 부츠 굽 라인이나 가방 모서리 같은 디테일이 살아남아 있었습니다. 책에서 "VAE blurry, GAN sharp"라고만 읽었던 게 한 그림으로 코드로 확인되니까 인상이 완전히 달랐습니다. **두 포트폴리오를 연결해서 만든 게 단순 합산이 아니라 곱셈이 된 셈**이라 좋았습니다.
+이번에 가장 만족스러운 결과는 06번 VAE vs GAN 비교였습니다. 직전에 짠 vae-from-scratch와 똑같은 데이터셋을 의도적으로 재사용한 게 이걸 위해서였는데, 한 그림에서 두 모델의 본질적 차이가 그대로 드러났습니다. VAE는 흐릿하고 평균화된 형태인 반면 GAN은 부츠 굽 라인이나 가방 모서리 같은 디테일이 살아남아 있었습니다. 책에서 "VAE blurry, GAN sharp"라고만 읽었던 게 한 그림으로 코드로 확인되니까 인상이 완전히 달랐습니다. **두 포트폴리오를 연결해서 만든 게 단순 합산이 아니라 곱셈이 된 셈**이라 좋았습니다.
 
 다음에는 cGAN(Conditional GAN)으로 "원하는 카테고리만 생성"하는 걸 해보거나, Pix2pix로 image-to-image translation을 해보고 싶습니다. GAN의 기본 구조를 이번에 손에 익혔으니 다음엔 응용 쪽으로 한 번 가보려고 합니다.
 
