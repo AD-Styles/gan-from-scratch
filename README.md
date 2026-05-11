@@ -1,5 +1,6 @@
 # 🎭 GAN from Scratch — A Deep Convolutional GAN for Image Generation in PyTorch
 ### FashionMNIST 28×28 이미지를 적대적 학습(Generator vs Discriminator)으로 생성하는, PyTorch로 직접 구현한 DCGAN.
+
 ![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C?logo=pytorch&logoColor=white)
 ![CUDA](https://img.shields.io/badge/CUDA-Enabled-76B900?logo=nvidia&logoColor=white)
@@ -47,9 +48,7 @@ gan-from-scratch/
 | **DCGAN (Deep Convolutional GAN)** | FC layer 제거, Conv/ConvT + BatchNorm으로 안정화한 GAN |
 | **BCE Loss** | Binary Cross-Entropy — D의 real/fake 분류와 G의 D 속이기에 모두 사용 |
 | **Non-saturating G Loss** | G가 `D(G(z))→1`을 목표로 학습 (saturating loss의 vanishing gradient 회피) |
-| **BatchNorm (G hidden)** | 생성자 hidden layer에 적용 — 학습 안정화의 핵심 |
-| **LeakyReLU (D hidden)** | 판별자에 사용 — gradient가 0에서 죽는 것을 방지 |
-| **Tanh Output (G)** | 생성 이미지를 [-1, 1] 범위로 출력 (실제 이미지도 [-1, 1] 정규화) |
+| **DCGAN 안정화 트릭 (Stabilization Tricks)** | G hidden에 BatchNorm + 출력에 Tanh, D hidden에 LeakyReLU(0.2) — 한쪽으로 학습이 폭주하는 것을 방지 |
 | **Mode Collapse** | G가 특정 카테고리만 반복 생성하는 GAN의 대표적 실패 모드 |
 | **Equilibrium (D Acc = 0.5)** | 이론적 균형점 — D가 진짜/가짜를 구별 못 함. **실제로는 도달하기 매우 어려움** |
 
