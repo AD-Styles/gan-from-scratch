@@ -79,7 +79,7 @@ gan-from-scratch/
 │   ├ Conv 64 → 128, stride 2 (14×14 → 7×7)     │
 │   │     → BatchNorm → LeakyReLU(0.2)          │
 │   └ Flatten → FC(128×7×7 → 1)                 │
-│       → (Sigmoid는 BCEWithLogitsLoss에서)     │
+│       → (Sigmoid는 BCEWithLogitsLoss에서)      │
 └───────────────────────────────────────────────┘
    ↓
    D(x or G(z)): real(1) / fake(0) probability
