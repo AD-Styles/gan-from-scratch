@@ -65,7 +65,7 @@ gan-from-scratch/
 │   ├ ConvT 128 → 64, stride 2 (7×7 → 14×14)    │
 │   │     → BatchNorm → ReLU                    │
 │   └ ConvT 64 → 1, stride 2 (14×14 → 28×28)    │
-│       → Tanh   (output range [-1, 1])         │
+│      → Tanh   (output range [-1, 1])          │
 └───────────────────────────────────────────────┘
    ↓
    G(z): 28×28 fake image  ──┐
