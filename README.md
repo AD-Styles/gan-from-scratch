@@ -69,7 +69,9 @@ gan-from-scratch/
 │       → Tanh   (output range [-1, 1])         │
 └───────────────────────────────────────────────┘
    ↓
-   G(z): 28×28 fake image
+   G(z): 28×28 fake image  ──┐
+                              ├──→  D 입력  (1×28×28)
+   x   : 28×28 real image ───┘
    ↓
 ┌───────────────────────────────────────────────┐
 │  Discriminator (CNN)                          │
@@ -81,7 +83,7 @@ gan-from-scratch/
 │       → (Sigmoid는 BCEWithLogitsLoss에서)     │
 └───────────────────────────────────────────────┘
    ↓
-   D(x): real(1) / fake(0) probability
+   D(x or G(z)): real(1) / fake(0) probability
 ```
 
 | Component | 차원 / 설정 |
