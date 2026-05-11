@@ -11,7 +11,7 @@
 
 ## 📌 프로젝트 요약 (Project Summary)
 
-GAN(Generative Adversarial Network)의 가장 대표적 변형인 **DCGAN(Deep Convolutional GAN)** 을 PyTorch로 구현해본 프로젝트입니다. VAE처럼 손실 함수 한 줄(ELBO)로 깔끔하게 떨어지는 모델과 달리, GAN은 **Generator와 Discriminator가 서로 속고 속이는 적대적 학습**을 통해 이미지를 만들어 갑니다. 이번 프로젝트의 핵심은 그 minimax 학습 구조를 코드로 직접 짜보면서 "왜 G와 D를 따로 학습해야 하는가", "왜 GAN의 학습은 본질적으로 불안정한가" 같은 질문들을 코드 레벨에서 익히는 것이 1차 목표였습니다.
+GAN(Generative Adversarial Network)의 가장 대표적 변형인 **DCGAN(Deep Convolutional GAN)** 을 PyTorch로 구현해본 프로젝트입니다. VAE처럼 손실 함수 한 줄(ELBO)로 깔끔하게 떨어지는 모델과 달리, GAN은 **Generator와 Discriminator가 서로 속고 속이는 적대적 학습**을 통해 이미지를 만들어 갑니다. 이번 프로젝트의 핵심은 그 minimax 학습 구조를 코드로 직접 짜보면서 "왜 G와 D를 따로 학습해야 하는가", "왜 GAN의 학습은 구조적으로 불안정한가" 같은 질문들을 코드 레벨에서 익히는 것이 1차 목표였습니다.
 
 데이터셋은 **FashionMNIST**(28×28 grayscale, 60k)이며, **이전 프로젝트인 [vae-from-scratch](https://github.com/AD-Styles/vae-from-scratch)와 동일한 데이터셋을 의도적으로 재사용**해서 두 모델을 직접 비교할 수 있게 했습니다. 학습 후에는 G/D 손실 곡선, D Accuracy의 균형 변화, 학습 진행에 따른 생성 결과 변화, 64개 샘플 다양성(Mode Collapse 체크), D Score 분포 분석, latent 공간 보간, 그리고 **VAE vs GAN 동일 조건 비교**까지 6개의 시각화로 정리했습니다.
 
@@ -22,14 +22,14 @@ GAN(Generative Adversarial Network)의 가장 대표적 변형인 **DCGAN(Deep C
 ```
 gan-from-scratch/
 ├── results/
-│   ├── 01_dataset_overview.png            # FashionMNIST 10개 클래스 + 분포 + 통계
-│   ├── 02_training_curve.png              # G/D Loss + D Accuracy (Equilibrium 0.5 비교)
-│   ├── 03_training_progression.png        # 같은 z, 다른 epoch — 학습 진행 추적
-│   ├── 04_diversity_and_d_score.png       # 64개 샘플 다양성 + D Score 분포 (real vs fake)
-│   ├── 05_latent_walk.png                 # z-space 보간 5쌍 (manifold 부드러움)
-│   └── 06_vae_vs_gan_comparison.png       # 이전 프로젝트 vae-from-scratch와 동일 조건 직접 비교 (blurry vs sharp)
+│   ├── 01_dataset_overview.png             # FashionMNIST 10개 클래스 + 분포 + 통계
+│   ├── 02_training_curve.png               # G/D Loss + D Accuracy (Equilibrium 0.5 비교)
+│   ├── 03_training_progression.png         # 같은 z, 다른 epoch — 학습 진행 추적
+│   ├── 04_diversity_and_d_score.png        # 64개 샘플 다양성 + D Score 분포 (real vs fake)
+│   ├── 05_latent_walk.png                  # 잠재 공간 보간 5쌍 (부드러움 확인)
+│   └── 06_vae_vs_gan_comparison.png        # 이전 프로젝트 vae-from-scratch와 동일 조건 직접 비교 (blurry vs sharp)
 ├── src/
-│   └── main.py                            # DCGAN 모델 + 학습 루프 + 시각화 통합 스크립트
+│   └── main.py                             # DCGAN 모델 + 학습 루프 + 시각화 통합 스크립트
 ├── .gitignore
 ├── LICENSE
 ├── README.md
@@ -155,7 +155,7 @@ GAN의 가장 흥미로운 부분이자 가장 어려운 부분이 한눈에 보
 - **Epoch 10** — 이미 신발, 긴소매 상의, 짧은 셔츠 등 **알아볼 수 있는 형태로 수렴**. 10 epoch 안에 큰 도약. 표준 DCGAN의 가장 인상적인 부분
 - **Epoch 25 → 50** — 형태는 거의 유지되지만 디테일(굽 모양, 옷 라인, 그림자)이 점진적으로 선명해짐
 
-→ **각 z가 어떤 카테고리로 수렴하는지가 학습 초기에 결정되고, 후반은 디테일 향상**이라는 흥미로운 패턴이 보입니다. VAE에서는 잘 보이지 않는 현상 (VAE는 KL 항이 z를 정규분포에 묶어두기 때문에 z가 특정 카테고리를 강하게 capture하는 정도가 약함).
+→ **각 z가 어떤 카테고리로 수렴하는지가 학습 초기에 결정되고, 후반은 디테일 향상**이라는 흥미로운 패턴이 보입니다. VAE에서는 잘 보이지 않는 현상 (VAE는 KL 항이 z를 정규분포에 묶어두기 때문에 z가 특정 카테고리를 강하게 잡아내는 정도가 약함).
 
 <br>
 
@@ -191,7 +191,7 @@ GAN의 가장 흥미로운 부분이자 가장 어려운 부분이 한눈에 보
 - **Pair 4**: 운동화의 디테일이 점진적으로 변하는 미세 변환
 - **Pair 5**: 굽 있는 신발의 형태가 점진적으로 변형되지만 α=1.0 쪽에서 노이즈가 끼는 게 보임 — GAN 보간의 한계가 드러나는 부분
 
-→ 만약 GAN이 mode collapse에 빠졌거나 z-space가 학습이 잘 안 됐다면 보간 중간이 노이즈로 무너졌을 텐데, 모든 단계가 인식 가능한 형태로 이어집니다. **GAN의 잠재 공간이 단순한 노이즈→이미지 매핑이 아니라 의미 있는 구조를 학습했다**는 직접 증거입니다.
+→ 만약 GAN이 mode collapse에 빠졌거나 잠재 공간이 잘 학습되지 않았다면 보간 중간이 노이즈로 무너졌을 텐데, 모든 단계가 인식 가능한 형태로 이어집니다. **GAN의 잠재 공간이 단순한 노이즈→이미지 매핑이 아니라 의미 있는 구조를 학습했다**는 직접 증거입니다.
 
 <br>
 
@@ -199,7 +199,7 @@ GAN의 가장 흥미로운 부분이자 가장 어려운 부분이 한눈에 보
 
 ![VAE vs GAN Comparison](results/06_vae_vs_gan_comparison.png)
 
-**이번 포트폴리오의 가장 강력한 차별 포인트**입니다. **같은 FashionMNIST 데이터셋**으로 학습한 이전 프로젝트 [vae-from-scratch](https://github.com/AD-Styles/vae-from-scratch)의 VAE와 이 프로젝트의 GAN을, 각자의 prior `N(0, I)`에서 독립적으로 8개씩 샘플링해 한 그림에서 직접 비교했습니다 (같은 z를 공유하는 게 아니라, 두 모델 각각의 분포에서 자유롭게 샘플링한 결과).
+**VAE → GAN 시리즈의 핵심 비교 결과**입니다. **같은 FashionMNIST 데이터셋**으로 학습한 이전 프로젝트 [vae-from-scratch](https://github.com/AD-Styles/vae-from-scratch)의 VAE와 이 프로젝트의 GAN을, 각자의 prior `N(0, I)`에서 독립적으로 8개씩 샘플링해 한 그림에서 직접 비교했습니다 (같은 z를 공유하는 게 아니라, 두 모델 각각의 분포에서 자유롭게 샘플링한 결과).
 
 - **(위) VAE (blurry)** — 형태(silhouette)는 보존되지만 픽셀 디테일이 평균화되어 흐릿함. BCE 손실이 모든 비슷한 이미지의 픽셀 평균을 향해 수렴하는 구조적 결과
 - **(아래) GAN (sharp)** — 부츠의 굽 라인, 가방의 모서리, 바지의 봉제선 같은 세밀한 디테일이 명확하게 살아남음. Discriminator가 픽셀 단위 디테일까지 평가하기 때문에 G가 어쩔 수 없이 sharp한 결과를 생성
