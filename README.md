@@ -42,15 +42,15 @@ gan-from-scratch/
 
 | 개념 | 한 줄 설명 |
 |------|-----------|
-| **적대적 학습 (Adversarial Training)** | G와 D가 서로 속고 속이는 minimax 게임 — GAN의 핵심 아이디어 |
+| **적대적 학습 (Adversarial Training)** | G와 D가 서로 속고 속이는 경쟁 게임 — GAN의 핵심 아이디어 |
 | **생성자 (Generator, G)** | random noise z를 입력받아 그럴듯한 이미지를 생성 |
 | **판별자 (Discriminator, D)** | 입력 이미지가 진짜(1)인지 가짜(0)인지 판별 |
 | **DCGAN (Deep Convolutional GAN)** | FC layer 제거, Conv/ConvT + BatchNorm으로 안정화한 GAN |
 | **BCE Loss** | Binary Cross-Entropy — D의 real/fake 분류와 G의 D 속이기에 모두 사용 |
-| **Non-saturating G Loss** | G가 `D(G(z))→1`을 목표로 학습 (saturating loss의 vanishing gradient 회피) |
+| **Non-saturating G Loss** | G가 D를 속이는 방향(`D(G(z))→1`)으로 학습 — 학습 초기에 G가 못 배우는 문제를 피한 변형 |
 | **DCGAN 안정화 트릭 (Stabilization Tricks)** | G hidden에 BatchNorm + 출력에 Tanh, D hidden에 LeakyReLU(0.2) — 한쪽으로 학습이 폭주하는 것을 방지 |
 | **Mode Collapse** | G가 특정 카테고리만 반복 생성하는 GAN의 대표적 실패 모드 |
-| **Equilibrium (D Acc = 0.5)** | 이론적 균형점 — D가 진짜/가짜를 구별 못 함. **실제로는 도달하기 매우 어려움** |
+| **Equilibrium (D Acc = 0.5)** | G와 D가 서로 균형 잡힌 상태 — D가 진짜/가짜를 구별 못 함. **실제로는 도달하기 매우 어려움** |
 
 ---
 
