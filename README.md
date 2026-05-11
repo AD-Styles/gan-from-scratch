@@ -237,7 +237,9 @@ Mode collapse는 GAN의 대표적 실패 모드라 처음부터 걱정했었습�
 - Goodfellow et al., *Generative Adversarial Networks* (NeurIPS 2014) — [arXiv:1406.2661](https://arxiv.org/abs/1406.2661)
 - Radford et al., *Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks (DCGAN)* (ICLR 2016) — [arXiv:1511.06434](https://arxiv.org/abs/1511.06434)
 - Mirza & Osindero, *Conditional Generative Adversarial Nets* (2014) — [arXiv:1411.1784](https://arxiv.org/abs/1411.1784)
+- Isola et al., *Image-to-Image Translation with Conditional Adversarial Networks (Pix2pix)* (CVPR 2017) — [arXiv:1611.07004](https://arxiv.org/abs/1611.07004)
 - Salimans et al., *Improved Techniques for Training GANs* (NeurIPS 2016) — [arXiv:1606.03498](https://arxiv.org/abs/1606.03498)
+- Heusel et al., *GANs Trained by a Two Time-Scale Update Rule Converge to a Local Nash Equilibrium (FID)* (NeurIPS 2017) — [arXiv:1706.08500](https://arxiv.org/abs/1706.08500)
 
 ### 데이터셋 / 레퍼런스 구현
 
